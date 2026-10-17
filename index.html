@@ -1,18 +1,17 @@
-```html
 <!DOCTYPE html>
 <html lang="my" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>letai - အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ တွက်စနစ် (Gmail Login)</title>
+    <title>letai - အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ တွက်စနစ်</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Inter & Padauk -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Padauk:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Padauk:wght@400;700&display=swap)" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -27,7 +26,6 @@
     </script>
 
     <style>
-        /* Glassmorphism Styles */
         .glass-panel {
             background: rgba(18, 24, 38, 0.85);
             backdrop-filter: blur(16px);
@@ -35,791 +33,335 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-
         .glass-input {
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.18);
             color: #ffffff;
         }
-
         .glass-input:focus {
             border-color: #ef4444;
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
             outline: none;
         }
-
-        /* Preset Background Themes */
-        .bg-theme-cyberpunk {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #311042 100%);
+        .bg-theme-crimson {
+            background: linear-gradient(135deg, #180202 0%, #450a0a 50%, #1e1b4b 100%);
         }
         .bg-theme-midnight {
             background: linear-gradient(135deg, #090d16 0%, #0f172a 50%, #172554 100%);
         }
-        .bg-theme-neon {
-            background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #0f172a 100%);
-        }
         .bg-theme-sunset {
             background: linear-gradient(135deg, #2e1065 0%, #581c87 50%, #701a75 100%);
         }
-        .bg-theme-crimson {
-            background: linear-gradient(135deg, #180202 0%, #450a0a 50%, #1e1b4b 100%);
-        }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.25);
             border-radius: 10px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
     </style>
 </head>
 <body id="appBody" class="bg-theme-crimson text-slate-100 font-sans min-h-screen transition-all duration-500 flex flex-col justify-between relative overflow-x-hidden">
 
-    <!-- Ambient Glowing Lights -->
-    <div class="fixed top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-red-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-
-    <!-- MAIN APP WRAPPER -->
     <div class="container mx-auto px-3 sm:px-4 py-6 max-w-5xl relative z-10 flex-grow">
-
-        <!-- Top Header Bar with Logo and User Profile / Theme Selector -->
+        
+        <!-- Header -->
         <header class="glass-panel rounded-2xl p-4 md:p-6 mb-6 flex flex-col md:flex-row justify-between items-center gap-5 border-t-4 border-red-500">
-            <!-- Logo & Brand Section -->
             <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
                 <div class="flex items-center gap-4">
-                    <!-- Overlapping Red Squares Logo with White Inset -->
                     <div class="relative w-14 h-12 flex items-center justify-center shrink-0">
                         <div class="absolute left-0 bottom-0 w-9 h-9 bg-[#a21c38] rounded-xl shadow-lg border border-red-400/20"></div>
                         <div class="absolute right-0 top-0 w-9 h-9 bg-[#a21c38] rounded-xl shadow-lg border border-red-400/20"></div>
                         <div class="absolute right-3.5 bottom-1.5 w-3.5 h-6 bg-white rounded-sm shadow-md z-10"></div>
                     </div>
-
-                    <!-- Text Branding -->
                     <div>
-                        <div class="flex items-baseline">
-                            <span class="text-2xl md:text-3xl font-black tracking-wider text-white uppercase font-sans">letai</span>
-                        </div>
-                        <div class="mt-1 bg-slate-900 border border-slate-700/80 px-2.5 py-0.5 rounded flex items-center justify-between shadow-sm">
+                        <span class="text-2xl md:text-3xl font-black tracking-wider text-white uppercase">LETAI</span>
+                        <div class="mt-1 bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded flex items-center justify-between">
                             <span class="text-[10px] md:text-[11px] font-bold text-slate-200 tracking-wider">PRINTING AND PACKAGING</span>
                             <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse ml-2"></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Mobile Theme Selector Button Toggle -->
-                <div class="flex items-center gap-2 md:hidden">
-                    <button type="button" onclick="toggleThemeMenu()" class="p-2 rounded-xl bg-slate-900/80 border border-white/10 text-slate-300">
-                        <i class="fa-solid fa-palette text-red-400"></i>
-                    </button>
-                </div>
             </div>
 
-            <!-- User Auth Profile & Theme Control Bar -->
-            <div class="flex flex-wrap items-center justify-end gap-3 w-full md:w-auto">
-                <!-- Theme Color Palette -->
-                <div id="themePalette" class="flex items-center gap-2 bg-slate-900/60 p-2 rounded-xl border border-white/10">
-                    <span class="text-xs text-slate-300 font-medium px-1"><i class="fa-solid fa-palette mr-1 text-red-400"></i> Theme:</span>
-                    <div class="flex items-center gap-1.5">
-                        <button type="button" onclick="setTheme('bg-theme-crimson')" title="Crimson Red" class="w-6 h-6 rounded-full bg-gradient-to-tr from-red-950 to-slate-900 border border-white/40 hover:scale-110 transition-transform cursor-pointer"></button>
-                        <button type="button" onclick="setTheme('bg-theme-cyberpunk')" title="Cyberpunk" class="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-900 to-purple-800 border border-white/40 hover:scale-110 transition-transform cursor-pointer"></button>
-                        <button type="button" onclick="setTheme('bg-theme-midnight')" title="Midnight Blue" class="w-6 h-6 rounded-full bg-gradient-to-tr from-slate-900 to-blue-900 border border-white/40 hover:scale-110 transition-transform cursor-pointer"></button>
-                        <button type="button" onclick="setTheme('bg-theme-neon')" title="Emerald" class="w-6 h-6 rounded-full bg-gradient-to-tr from-emerald-950 to-teal-800 border border-white/40 hover:scale-110 transition-transform cursor-pointer"></button>
-                        <button type="button" onclick="setTheme('bg-theme-sunset')" title="Sunset Purple" class="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-950 to-fuchsia-800 border border-white/40 hover:scale-110 transition-transform cursor-pointer"></button>
-                        
-                        <label title="စိတ်ကြိုက် အရောင်" class="relative cursor-pointer w-6 h-6 rounded-full bg-gradient-to-tr from-amber-400 to-red-500 border border-white/40 hover:scale-110 transition-transform flex items-center justify-center overflow-hidden">
-                            <input type="color" id="customColorPicker" onchange="setCustomColor(this.value)" class="absolute opacity-0 w-full h-full cursor-pointer">
-                            <i class="fa-solid fa-plus text-[10px] text-white"></i>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- User Account Status Box -->
+            <!-- Profile & Logout Bar -->
+            <div class="flex items-center gap-3">
                 <div id="userAccountSection" class="hidden flex items-center gap-3 bg-slate-900/80 p-1.5 pr-3 rounded-xl border border-white/10">
-                    <img id="userAvatar" src="https://placehold.co/100x100/1e293b/white?text=U" alt="User Avatar" class="w-8 h-8 rounded-lg object-cover border border-red-500/50">
+                    <img id="userAvatar" src="[https://placehold.co/100x100/1e293b/white?text=U](https://placehold.co/100x100/1e293b/white?text=U)" alt="User" class="w-8 h-8 rounded-lg object-cover border border-red-500">
                     <div class="text-left hidden sm:block">
-                        <div id="userName" class="text-xs font-bold text-white truncate max-w-[120px]">User</div>
-                        <div id="userEmail" class="text-[10px] text-slate-400 truncate max-w-[140px]">user@gmail.com</div>
+                        <div id="userName" class="text-xs font-bold text-white">User</div>
+                        <div id="userEmail" class="text-[10px] text-slate-400">email</div>
                     </div>
-                    <button type="button" onclick="handleLogout()" class="ml-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 p-2 rounded-lg border border-red-500/20 transition-all text-xs font-bold flex items-center gap-1 cursor-pointer" title="အကောင့်မှ ထွက်မည်">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span class="hidden sm:inline">ထွက်မည်</span>
+                    <button type="button" onclick="handleLogout()" class="ml-1 text-red-400 hover:text-red-300 p-2 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-right-from-bracket"></i> ထွက်မည်
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- LOGIN SCREEN OVERLAY (When Not Logged In) -->
-        <div id="loginScreen" class="glass-panel rounded-3xl p-8 md:p-12 text-center max-w-md mx-auto my-10 border border-red-500/30 shadow-2xl relative overflow-hidden">
-            <div class="w-20 h-20 bg-red-500/10 border border-red-500/30 rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-inner">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="glass-panel rounded-3xl p-8 md:p-12 text-center max-w-md mx-auto my-10 border border-red-500/30 shadow-2xl">
+            <div class="w-20 h-20 bg-red-500/10 border border-red-500/30 rounded-3xl mx-auto flex items-center justify-center mb-6">
                 <i class="fa-solid fa-user-lock text-3xl text-red-400"></i>
             </div>
-            
             <h2 class="text-2xl font-black text-white mb-2">မင်္ဂလာပါ</h2>
-            <p class="text-xs text-slate-300 mb-8 leading-relaxed">
-                သင့်၏ အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ စာရင်းများကို Cloud ပေါ်တွင် လုံခြုံစွာ သိမ်းဆည်းရန် <strong class="text-red-400">Gmail / Google Account</strong> ဖြင့် Login ဝင်ရောက်ပါ။
-            </p>
+            <p class="text-xs text-slate-300 mb-6">သင့်၏ အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ စာရင်းများကို Cloud/Local ပေါ်တွင် လုံခြုံစွာ သိမ်းဆည်းရန် Login ဝင်ရောက်ပါ။</p>
+            
+            <div id="loginFormContainer" class="space-y-3">
+                <button type="button" onclick="handleGoogleLoginPrompt()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-3.5 px-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 cursor-pointer transition-all">
+                    <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Google / Gmail ဖြင့် Login ဝင်ရန်</span>
+                </button>
+            </div>
 
-            <button type="button" onclick="handleGoogleLogin()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-3.5 px-5 rounded-2xl shadow-xl transition-all duration-200 flex items-center justify-center gap-3 cursor-pointer group">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span class="text-sm font-extrabold group-hover:scale-105 transition-transform">Google / Gmail ဖြင့် Login ဝင်ရန်</span>
-            </button>
-
-            <!-- Offline Guest Login Mode Option -->
             <div class="mt-6 border-t border-white/10 pt-4">
-                <button type="button" onclick="continueAsGuest()" class="text-xs text-slate-400 hover:text-white underline transition-colors cursor-pointer">
+                <button type="button" onclick="continueAsGuest()" class="text-xs text-slate-400 hover:text-white underline cursor-pointer">
                     အကောင့်မသုံးဘဲ Offline ပဲ စမ်းသပ်သုံးမည်
                 </button>
             </div>
         </div>
 
-        <!-- MAIN DASHBOARD CONTENT (Show when authenticated or guest) -->
+        <!-- Main Dashboard -->
         <div id="mainDashboard" class="hidden">
-            
-            <!-- Summary Cards Section -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
-                <!-- Total Income Card -->
-                <div class="glass-panel p-4 rounded-xl border border-red-500/30 bg-red-950/20 flex flex-col justify-between col-span-2 sm:col-span-1">
-                    <span class="text-xs text-red-300/90 font-medium">စုစုပေါင်း ဝင်ငွေ</span>
-                    <div class="flex items-baseline justify-between mt-2">
-                        <span id="statTotalIncome" class="text-2xl md:text-3xl font-extrabold text-red-400">0</span>
-                        <span class="text-xs font-bold text-red-300">THB (ဘတ်)</span>
-                    </div>
+                <div class="glass-panel p-4 rounded-xl border border-red-500/30 col-span-2 sm:col-span-1">
+                    <span class="text-xs text-red-300 font-medium">စုစုပေါင်း ဝင်ငွေ</span>
+                    <div class="mt-2"><span id="statTotalIncome" class="text-2xl font-extrabold text-red-400">0</span> <span class="text-xs text-red-300">THB</span></div>
                 </div>
-
-                <!-- Total OT Hours & Pay Card -->
-                <div class="glass-panel p-4 rounded-xl border border-amber-500/20 bg-amber-950/10 flex flex-col justify-between">
-                    <span class="text-xs text-amber-300/90 font-medium">စုစုပေါင်း OT နာရီ & ကြေး</span>
-                    <div class="mt-2">
-                        <div class="text-xl md:text-2xl font-bold text-amber-400"><span id="statTotalOtHours">0</span> <span class="text-xs font-normal">နာရီ</span></div>
-                        <div class="text-xs text-amber-300/80 mt-0.5"><span id="statTotalOtPay">0</span> ဘတ်</div>
-                    </div>
+                <div class="glass-panel p-4 rounded-xl border border-amber-500/20">
+                    <span class="text-xs text-amber-300 font-medium">OT နာရီ & ကြေး</span>
+                    <div class="mt-2 text-amber-400 font-bold"><span id="statTotalOtHours">0</span> နာရီ (<span id="statTotalOtPay">0</span> ฿)</div>
                 </div>
-
-                <!-- Total Allowance Card -->
-                <div class="glass-panel p-4 rounded-xl border border-sky-500/20 bg-sky-950/10 flex flex-col justify-between">
-                    <span class="text-xs text-sky-300/90 font-medium">စုစုပေါင်း ထောက်ပံ့ကြေး</span>
-                    <div class="flex items-baseline justify-between mt-2">
-                        <span id="statTotalAllowance" class="text-xl md:text-2xl font-bold text-sky-400">0</span>
-                        <span class="text-xs font-bold text-sky-300">ဘတ်</span>
-                    </div>
+                <div class="glass-panel p-4 rounded-xl border border-sky-500/20">
+                    <span class="text-xs text-sky-300 font-medium">ထောက်ပံ့ကြေး</span>
+                    <div class="mt-2 text-sky-400 font-bold"><span id="statTotalAllowance">0</span> ฿</div>
                 </div>
-
-                <!-- Days & Shifts Card -->
-                <div class="glass-panel p-4 rounded-xl border border-indigo-500/20 flex flex-col justify-between">
-                    <span class="text-xs text-slate-300 font-medium">အလုပ်ဆင်းရက် / အဆိုင်း</span>
-                    <div class="mt-2 flex items-baseline justify-between">
-                        <span id="statTotalDays" class="text-xl md:text-2xl font-bold text-white">0 <span class="text-xs font-normal text-slate-400">ရက်</span></span>
-                        <div class="text-[11px] text-right text-slate-300">
-                            <div>☀️ <span id="statDayShift">0</span> | 🌙 <span id="statNightShift">0</span></div>
-                        </div>
-                    </div>
+                <div class="glass-panel p-4 rounded-xl border border-indigo-500/20">
+                    <span class="text-xs text-slate-300 font-medium">အလုပ်ဆင်းရက်</span>
+                    <div class="mt-2 text-white font-bold"><span id="statTotalDays">0</span> ရက် (☀️<span id="statDayShift">0</span>|🌙<span id="statNightShift">0</span>)</div>
                 </div>
             </div>
 
-            <!-- Form & Records Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-                <!-- Left Column: Form -->
                 <div class="lg:col-span-5">
-                    <div class="glass-panel rounded-2xl p-5 md:p-6 sticky top-6">
-                        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-3">
-                            <i class="fa-solid fa-pen-to-square text-red-400"></i>
-                            နေ့စဉ်မှတ်တမ်း အသစ်ထည့်ရန်
-                        </h2>
-
+                    <div class="glass-panel rounded-2xl p-5 md:p-6">
+                        <h2 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-3">နေ့စဉ်မှတ်တမ်း အသစ်ထည့်ရန်</h2>
                         <form id="recordForm" class="space-y-4">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">ရက်စွဲ (Date)</label>
-                                <input type="date" id="recordDate" class="w-full glass-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-red-500" required>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">ရက်စွဲ</label>
+                                <input type="date" id="recordDate" class="w-full glass-input rounded-xl px-3 py-2.5 text-sm" required>
                             </div>
-
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">အဆိုင်း အမျိုးအစား (Shift)</label>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">အဆိုင်း (Shift)</label>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <button type="button" id="btnShiftDay" onclick="selectShift('DAY')" class="py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-lg shadow-amber-500/10 cursor-pointer">
-                                        <i class="fa-solid fa-sun text-base"></i>
-                                        <span>နေ့ဆိုင်း (Day)</span>
-                                    </button>
-                                    <button type="button" id="btnShiftNight" onclick="selectShift('NIGHT')" class="py-2.5 px-3 rounded-xl border border-white/10 text-xs font-bold text-slate-400 flex items-center justify-center gap-2 transition-all hover:bg-white/5 cursor-pointer">
-                                        <i class="fa-solid fa-moon text-base"></i>
-                                        <span>ညဆိုင်း (Night)</span>
-                                    </button>
+                                    <button type="button" id="btnShiftDay" onclick="selectShift('DAY')" class="py-2.5 rounded-xl border text-xs font-bold bg-amber-500/20 border-amber-500/50 text-amber-300 cursor-pointer">☀️ နေ့ဆိုင်း</button>
+                                    <button type="button" id="btnShiftNight" onclick="selectShift('NIGHT')" class="py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-400 cursor-pointer">🌙 ညဆိုင်း</button>
                                 </div>
                             </div>
-
-                            <div class="bg-white/5 rounded-xl p-3 border border-white/10">
-                                <div class="flex justify-between items-center text-xs">
-                                    <span class="text-slate-300">ပုံမှန် ၈ နာရီ လုပ်အားခ:</span>
-                                    <span class="font-bold text-red-400 text-sm">400 THB (ဘတ်)</span>
-                                </div>
+                            <div class="bg-white/5 rounded-xl p-3 text-xs flex justify-between">
+                                <span class="text-slate-300">ပုံမှန် ၈ နာရီ:</span>
+                                <span class="font-bold text-red-400">400 THB</span>
                             </div>
-
                             <div>
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-semibold text-slate-300">OT နာရီ (၁ နာရီ = ၇၅ ဘတ်)</label>
-                                    <span id="otPayPreview" class="text-xs text-amber-400 font-bold">+0 ဘတ်</span>
-                                </div>
-                                <div class="relative">
-                                    <input type="number" id="otHours" step="0.5" min="0" max="24" placeholder="0" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl pl-3 pr-12 py-2.5 text-sm font-bold text-amber-400 focus:ring-2 focus:ring-amber-500">
-                                    <span class="absolute right-3 top-3 text-xs text-slate-400 font-bold">နာရီ</span>
-                                </div>
-
-                                <div class="flex flex-wrap gap-1.5 mt-2">
-                                    <button type="button" onclick="setQuickOt(1)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+1h</button>
-                                    <button type="button" onclick="setQuickOt(1.5)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+1.5h</button>
-                                    <button type="button" onclick="setQuickOt(2)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+2h</button>
-                                    <button type="button" onclick="setQuickOt(2.5)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+2.5h</button>
-                                    <button type="button" onclick="setQuickOt(3)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+3h</button>
-                                    <button type="button" onclick="setQuickOt(0)" class="px-2 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs text-red-400 transition-colors cursor-pointer">Clear</button>
-                                </div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">OT နာရီ (1h = 75฿)</label>
+                                <input type="number" id="otHours" step="0.5" min="0" placeholder="0" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2.5 text-sm text-amber-400 font-bold">
                             </div>
-
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">အပိုထောက်ပံ့ကြေး / Allowance (ဘတ်)</label>
-                                <div class="relative">
-                                    <input type="number" id="allowanceAmount" min="0" placeholder="0" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl pl-3 pr-12 py-2.5 text-sm font-bold text-sky-400 focus:ring-2 focus:ring-sky-500">
-                                    <span class="absolute right-3 top-3 text-xs text-slate-400 font-bold">ဘတ်</span>
-                                </div>
-
-                                <div class="flex flex-wrap gap-1.5 mt-2">
-                                    <button type="button" onclick="setQuickAllowance(30)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+30฿ (ထမင်းဖိုး)</button>
-                                    <button type="button" onclick="setQuickAllowance(50)" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+50฿ (ညကြေး)</button>
-                                    <button type="button" onclick="setQuickAllowance(100)" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-xs text-slate-300 transition-colors cursor-pointer">+100฿</button>
-                                    <button type="button" onclick="setQuickAllowance(0)" class="px-2 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs text-red-400 transition-colors cursor-pointer">Clear</button>
-                                </div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">အပိုထောက်ပံ့ကြေး (ဘတ်)</label>
+                                <input type="number" id="allowanceAmount" min="0" placeholder="0" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2.5 text-sm text-sky-400 font-bold">
                             </div>
-
-                            <div class="p-3 bg-gradient-to-r from-red-950/50 to-slate-900/60 rounded-xl border border-red-500/30 flex justify-between items-center">
-                                <span class="text-xs text-slate-300 font-semibold">တစ်နေ့တာ စုစုပေါင်း ရရှိမည်:</span>
+                            <div class="p-3 bg-red-950/50 rounded-xl border border-red-500/30 flex justify-between items-center">
+                                <span class="text-xs text-slate-300">စုစုပေါင်း ရမည်:</span>
                                 <span id="dailyTotalPreview" class="text-lg font-black text-red-400">400 ဘတ်</span>
                             </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">မှတ်ချက် (Optional)</label>
-                                <input type="text" id="recordNote" placeholder="ဥပမာ - စက်ရုံ OT + ထမင်းဖိုး" class="w-full glass-input rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-red-500">
-                            </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-red-600/30 transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                                <i class="fa-solid fa-plus-circle"></i>
-                                <span>မှတ်တမ်းတွင် ထည့်သွင်းမည်</span>
-                            </button>
+                            <button type="submit" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl shadow-lg cursor-pointer">မှတ်တမ်းတင်မည်</button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Right Column: History Records -->
                 <div class="lg:col-span-7">
                     <div class="glass-panel rounded-2xl p-5 md:p-6">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 border-b border-white/10 pb-3">
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                <i class="fa-solid fa-receipt text-red-400"></i>
-                                မှတ်တမ်းများ ပြန်လည်စစ်ဆေးရန်
-                            </h2>
-
-                            <div class="flex items-center gap-2 self-end sm:self-auto">
-                                <select id="filterShift" onchange="renderRecords()" class="glass-input rounded-lg px-2.5 py-1 text-xs font-medium focus:ring-1 focus:ring-red-500 cursor-pointer">
-                                    <option value="ALL" class="bg-slate-900 text-white">အဆိုင်းအားလုံး</option>
-                                    <option value="DAY" class="bg-slate-900 text-white">နေ့ဆိုင်း သီးသန့်</option>
-                                    <option value="NIGHT" class="bg-slate-900 text-white">ညဆိုင်း သီးသန့်</option>
-                                </select>
-
-                                <button type="button" onclick="clearAllRecords()" class="text-xs text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-2.5 py-1.5 rounded-lg border border-red-500/20 transition-colors cursor-pointer" title="မှတ်တမ်းအားလုံးဖျက်မည်">
-                                    <i class="fa-solid fa-trash-can mr-1"></i> အားလုံးဖျက်မည်
-                                </button>
-                            </div>
+                        <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
+                            <h2 class="text-lg font-bold text-white">မှတ်တမ်းများ</h2>
+                            <button type="button" onclick="clearAllRecords()" class="text-xs text-red-400 bg-red-500/10 px-2.5 py-1.5 rounded-lg border border-red-500/20 cursor-pointer">အားလုံးဖျက်မည်</button>
                         </div>
-
-                        <!-- Dynamic Records Container -->
-                        <div id="recordsContainer" class="space-y-3 max-h-[540px] overflow-y-auto pr-1">
-                            <!-- Populated via JavaScript -->
-                        </div>
+                        <div id="recordsContainer" class="space-y-3 max-h-[500px] overflow-y-auto"></div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center py-5 text-xs text-slate-400 relative z-10 border-t border-white/10 mt-8 bg-slate-950/50">
-        <p class="font-bold text-white tracking-widest uppercase mb-1">letai PRINTING AND PACKAGING</p>
-        <p class="font-medium text-slate-300">Created by <span class="font-bold text-red-400 tracking-wider">KYAW SWAR(LETAI)</span></p>
-        <p class="text-[11px] text-slate-400 mt-1">အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ မှတ်တမ်းစနစ် &copy; 2026</p>
+    <footer class="text-center py-4 text-xs text-slate-400 border-t border-white/10 bg-slate-950">
+        <p class="font-bold text-white">letai PRINTING AND PACKAGING</p>
+        <p class="mt-1">Created by <span class="font-bold text-red-400">KYAW SWAR(LETAI)</span></p>
     </footer>
 
-    <!-- Toast Notification Popup -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-red-500/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 pointer-events-none">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-red-400 text-lg"></i>
-        <span id="toastMsg" class="text-xs font-medium"></span>
-    </div>
-
-    <!-- Firebase App & Auth SDK Modules -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Environment variables
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'letai-work-tracker';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyDemoDummyKeyForAppOnly",
-            authDomain: "letai-tracker.firebaseapp.com",
-            projectId: "letai-tracker",
-            storageBucket: "letai-tracker.appspot.com"
-        };
-
-        let app, auth, db;
-        let currentUser = null;
-        let isGuestMode = false;
-        let firestoreUnsubscribe = null;
-
-        // Base Pay Rates
+    <!-- Script Logic -->
+    <script>
         const BASE_DAILY_RATE = 400;
         const OT_HOURLY_RATE = 75;
-
-        // Global State
-        window.records = [];
         window.selectedShift = 'DAY';
+        window.currentUser = JSON.parse(localStorage.getItem('letai_logged_user')) || null;
 
-        // Initialize Firebase
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-        } catch (e) {
-            console.warn("Firebase initialization skipped or fallback needed", e);
-        }
-
-        // Initialize Auth Listener
-        window.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('recordDate').valueAsDate = new Date();
-
-            const savedTheme = localStorage.getItem('letai_work_theme') || 'bg-theme-crimson';
-            const savedColor = localStorage.getItem('letai_work_custom_color');
-            if (savedColor) {
-                window.setCustomColor(savedColor, false);
-            } else {
-                window.setTheme(savedTheme, false);
+            
+            if (window.currentUser) {
+                showDashboard(window.currentUser);
             }
-
-            if (auth) {
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        currentUser = user;
-                        isGuestMode = false;
-                        updateUserInterface(user);
-                        document.getElementById('loginScreen').classList.add('hidden');
-                        document.getElementById('mainDashboard').classList.remove('hidden');
-                        document.getElementById('userAccountSection').classList.remove('hidden');
-                        
-                        // Subscribe to Firestore synced user records
-                        subscribeToUserRecords(user.uid);
-                    } else if (!isGuestMode) {
-                        // Check if custom auth token exists in frame env
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            try {
-                                await signInWithCustomToken(auth, __initial_auth_token);
-                            } catch (err) {
-                                console.error("Custom token login failed", err);
-                                showLoginScreen();
-                            }
-                        } else {
-                            showLoginScreen();
-                        }
-                    }
-                });
-            } else {
-                showLoginScreen();
-            }
-
-            window.updateCalculationsPreview();
         });
 
-        // Show Login Screen UI
-        function showLoginScreen() {
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('mainDashboard').classList.add('hidden');
-            document.getElementById('userAccountSection').classList.add('hidden');
-        }
-
-        // Update Header User Profile UI
-        function updateUserInterface(user) {
-            document.getElementById('userName').innerText = user.displayName || 'ဆရာ/ဆရာမ';
-            document.getElementById('userEmail').innerText = user.email || user.uid;
-            document.getElementById('userAvatar').src = user.photoURL || `https://placehold.co/100x100/1e293b/white?text=${(user.displayName || 'U').charAt(0)}`;
-        }
-
-        // Google Gmail Login Action
-        window.handleGoogleLogin = async function() {
-            if (!auth) {
-                window.showToast("Google Login offline ဖြစ်နေပါသဖြင့် Guest Mode သုံးပါ", "info");
-                window.continueAsGuest();
-                return;
-            }
-
-            const provider = new GoogleAuthProvider();
-            try {
-                await signInWithPopup(auth, provider);
-                window.showToast("Gmail Login အောင်မြင်ပါသည်။", "success");
-            } catch (error) {
-                console.error("Login Error:", error);
-                // Fallback to anonymous auth if popup is blocked
-                try {
-                    await signInAnonymously(auth);
-                    window.showToast("Google Login မရသဖြင့် Anonymous Mode ဖြင့် ဝင်ရောက်ပါသည်", "info");
-                } catch (anonErr) {
-                    window.showToast("Login မအောင်မြင်ပါ: " + error.message, "info");
-                }
+        window.handleGoogleLoginPrompt = function() {
+            const email = prompt("သင့်၏ Gmail လိပ်စာ ရိုက်ထည့်ပါ:", "kyawswar@gmail.com");
+            if (email && email.trim() !== "") {
+                const name = email.split('@')[0];
+                const userObj = {
+                    name: name.toUpperCase(),
+                    email: email.trim(),
+                    photo: `[https://ui-avatars.com/api/?name=$](https://ui-avatars.com/api/?name=$){name}&background=ef4444&color=fff`
+                };
+                localStorage.setItem('letai_logged_user', JSON.stringify(userObj));
+                window.currentUser = userObj;
+                showDashboard(userObj);
             }
         };
 
-        // Guest Offline Mode
         window.continueAsGuest = function() {
-            isGuestMode = true;
-            currentUser = null;
+            const guestObj = { name: "GUEST USER", email: "Offline Mode", photo: "[https://placehold.co/100x100/334155/white?text=G](https://placehold.co/100x100/334155/white?text=G)" };
+            showDashboard(guestObj);
+        };
+
+        function showDashboard(user) {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
-            document.getElementById('userAccountSection').classList.add('hidden');
+            document.getElementById('userAccountSection').classList.remove('hidden');
 
-            // Load local records for guest
-            window.records = JSON.parse(localStorage.getItem('letai_work_records_guest')) || [];
-            window.renderRecords();
-            window.showToast("Guest Mode ဖြင့် အသုံးပြုနေပါသည်။", "info");
-        };
+            document.getElementById('userName').innerText = user.name;
+            document.getElementById('userEmail').innerText = user.email;
+            document.getElementById('userAvatar').src = user.photo;
 
-        // Logout Function
-        window.handleLogout = async function() {
-            if (firestoreUnsubscribe) firestoreUnsubscribe();
-            if (auth) {
-                await signOut(auth);
-            }
-            currentUser = null;
-            isGuestMode = false;
-            window.records = [];
-            showLoginScreen();
-            window.showToast("အကောင့်မှ ထွက်လိုက်ပါပြီ", "info");
-        };
-
-        // Realtime Firestore Sync
-        function subscribeToUserRecords(uid) {
-            if (!db) return;
-            
-            // Path following mandatory Rule 1: /artifacts/{appId}/users/{userId}/data
-            const docRef = doc(db, 'artifacts', appId, 'users', uid, 'user_records', 'data');
-
-            firestoreUnsubscribe = onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    window.records = data.list || [];
-                } else {
-                    window.records = [];
-                }
-                window.renderRecords();
-            }, (error) => {
-                console.error("Firestore Error:", error);
-                // Fallback to LocalStorage scoped to User ID
-                window.records = JSON.parse(localStorage.getItem(`letai_records_${uid}`)) || [];
-                window.renderRecords();
-            });
+            window.loadUserRecords();
         }
 
-        // Save records both to Firestore and LocalStorage
-        window.saveRecords = async function() {
-            if (currentUser && db) {
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'user_records', 'data');
-                try {
-                    await setDoc(docRef, { list: window.records, updatedAt: new Date().toISOString() });
-                } catch (err) {
-                    console.error("Firestore Save Error:", err);
-                    localStorage.setItem(`letai_records_${currentUser.uid}`, JSON.stringify(window.records));
-                }
-            } else if (currentUser) {
-                localStorage.setItem(`letai_records_${currentUser.uid}`, JSON.stringify(window.records));
-            } else {
-                localStorage.setItem('letai_work_records_guest', JSON.stringify(window.records));
-            }
+        window.handleLogout = function() {
+            localStorage.removeItem('letai_logged_user');
+            window.currentUser = null;
+            location.reload();
+        };
+
+        window.loadUserRecords = function() {
+            const key = window.currentUser ? `letai_records_${window.currentUser.email}` : 'letai_records_guest';
+            window.records = JSON.parse(localStorage.getItem(key)) || [];
             window.renderRecords();
         };
 
-        // Shift selection toggle
+        window.saveUserRecords = function() {
+            const key = window.currentUser ? `letai_records_${window.currentUser.email}` : 'letai_records_guest';
+            localStorage.setItem(key, JSON.stringify(window.records));
+            window.renderRecords();
+        };
+
         window.selectShift = function(shift) {
             window.selectedShift = shift;
             const btnDay = document.getElementById('btnShiftDay');
             const btnNight = document.getElementById('btnShiftNight');
+            const body = document.getElementById('appBody');
+
+            body.className = body.className.replace(/bg-theme-\w+/g, '');
 
             if (shift === 'DAY') {
-                btnDay.className = "py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-lg shadow-amber-500/10 cursor-pointer";
-                btnNight.className = "py-2.5 px-3 rounded-xl border border-white/10 text-xs font-bold text-slate-400 flex items-center justify-center gap-2 transition-all hover:bg-white/5 cursor-pointer";
+                btnDay.className = "py-2.5 rounded-xl border text-xs font-bold bg-amber-500/20 border-amber-500/50 text-amber-300 cursor-pointer";
+                btnNight.className = "py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-400 cursor-pointer";
+                body.classList.add('bg-theme-sunset');
             } else {
-                btnNight.className = "py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all bg-indigo-500/20 border-indigo-500/50 text-indigo-300 shadow-lg shadow-indigo-500/10 cursor-pointer";
-                btnDay.className = "py-2.5 px-3 rounded-xl border border-white/10 text-xs font-bold text-slate-400 flex items-center justify-center gap-2 transition-all hover:bg-white/5 cursor-pointer";
+                btnNight.className = "py-2.5 rounded-xl border text-xs font-bold bg-indigo-500/20 border-indigo-500/50 text-indigo-300 cursor-pointer";
+                btnDay.className = "py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-400 cursor-pointer";
+                body.classList.add('bg-theme-midnight');
             }
         };
 
-        // Quick OT Buttons
-        window.setQuickOt = function(hours) {
-            const otInput = document.getElementById('otHours');
-            otInput.value = hours > 0 ? hours : '';
-            window.updateCalculationsPreview();
-        };
-
-        // Quick Allowance Buttons
-        window.setQuickAllowance = function(amount) {
-            const allowanceInput = document.getElementById('allowanceAmount');
-            allowanceInput.value = amount > 0 ? amount : '';
-            window.updateCalculationsPreview();
-        };
-
-        // Form calculation live preview
         window.updateCalculationsPreview = function() {
             const otHours = parseFloat(document.getElementById('otHours').value) || 0;
             const allowance = parseFloat(document.getElementById('allowanceAmount').value) || 0;
-
             const otPay = otHours * OT_HOURLY_RATE;
-            const totalDailyEarned = BASE_DAILY_RATE + otPay + allowance;
-
-            document.getElementById('otPayPreview').innerText = `+${otPay} ဘတ်`;
-            document.getElementById('dailyTotalPreview').innerText = `${totalDailyEarned} ဘတ်`;
+            const total = BASE_DAILY_RATE + otPay + allowance;
+            document.getElementById('dailyTotalPreview').innerText = `${total} ဘတ်`;
         };
 
-        // Add Record Form Handler
         document.getElementById('recordForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
             const dateVal = document.getElementById('recordDate').value;
             const otVal = parseFloat(document.getElementById('otHours').value) || 0;
             const allowanceVal = parseFloat(document.getElementById('allowanceAmount').value) || 0;
-            const noteVal = document.getElementById('recordNote').value.trim();
 
             const otPay = otVal * OT_HOURLY_RATE;
             const totalEarned = BASE_DAILY_RATE + otPay + allowanceVal;
 
             const newRecord = {
-                id: Date.now() + "_" + Math.floor(Math.random() * 1000),
+                id: Date.now(),
                 date: dateVal,
                 shift: window.selectedShift,
-                basePay: BASE_DAILY_RATE,
                 otHours: otVal,
                 otPay: otPay,
                 allowance: allowanceVal,
-                totalEarned: totalEarned,
-                note: noteVal
+                totalEarned: totalEarned
             };
 
             window.records.push(newRecord);
-            window.saveRecords();
+            window.saveUserRecords();
 
             document.getElementById('otHours').value = '';
             document.getElementById('allowanceAmount').value = '';
-            document.getElementById('recordNote').value = '';
             window.updateCalculationsPreview();
-
-            window.showToast('မှတ်တမ်းသစ် ထည့်သွင်းပြီးပါပြီ!', 'success');
         });
 
-        // Render Cards & Dashboard Summary
         window.renderRecords = function() {
             const container = document.getElementById('recordsContainer');
-            const filterValue = document.getElementById('filterShift').value;
             container.innerHTML = '';
 
-            let filteredRecords = window.records.filter(rec => {
-                if (filterValue === 'ALL') return true;
-                return rec.shift === filterValue;
-            });
-
-            filteredRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
-
             let totalDays = window.records.length;
-            let totalIncome = 0;
-            let totalOtHours = 0;
-            let totalOtPay = 0;
-            let totalAllowance = 0;
-            let dayShifts = 0;
-            let nightShifts = 0;
+            let totalIncome = 0, totalOtHours = 0, totalOtPay = 0, totalAllowance = 0, dayShifts = 0, nightShifts = 0;
 
             window.records.forEach(r => {
-                totalIncome += r.totalEarned || 0;
-                totalOtHours += r.otHours || 0;
-                totalOtPay += r.otPay || 0;
-                totalAllowance += r.allowance || 0;
-                if (r.shift === 'DAY') dayShifts++;
-                if (r.shift === 'NIGHT') nightShifts++;
+                totalIncome += r.totalEarned;
+                totalOtHours += r.otHours;
+                totalOtPay += r.otPay;
+                totalAllowance += r.allowance;
+                if (r.shift === 'DAY') dayShifts++; else nightShifts++;
             });
 
             document.getElementById('statTotalIncome').innerText = totalIncome.toLocaleString();
-            document.getElementById('statTotalOtHours').innerText = totalOtHours % 1 === 0 ? totalOtHours : totalOtHours.toFixed(1);
+            document.getElementById('statTotalOtHours').innerText = totalOtHours;
             document.getElementById('statTotalOtPay').innerText = totalOtPay.toLocaleString();
             document.getElementById('statTotalAllowance').innerText = totalAllowance.toLocaleString();
-            document.getElementById('statTotalDays').innerHTML = `${totalDays} <span class="text-xs font-normal text-slate-400">ရက်</span>`;
+            document.getElementById('statTotalDays').innerText = totalDays;
             document.getElementById('statDayShift').innerText = dayShifts;
             document.getElementById('statNightShift').innerText = nightShifts;
 
-            if (filteredRecords.length === 0) {
-                container.innerHTML = `
-                    <div class="glass-card rounded-xl p-8 text-center text-slate-400 my-4">
-                        <i class="fa-regular fa-folder-open text-4xl text-slate-600 mb-3"></i>
-                        <p class="text-sm">မှတ်တမ်း မရှိသေးပါ။</p>
-                    </div>
-                `;
+            if (window.records.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-400 py-6">မှတ်တမ်း မရှိသေးပါ။</div>`;
                 return;
             }
 
-            filteredRecords.forEach((rec) => {
+            window.records.slice().reverse().forEach(rec => {
                 const isDay = rec.shift === 'DAY';
                 const card = document.createElement('div');
-                card.className = "glass-card rounded-xl p-3.5 border border-white/5 hover:border-white/20 transition-all space-y-2";
-
+                card.className = "glass-card rounded-xl p-3 border border-white/5 space-y-2";
                 card.innerHTML = `
-                    <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-8 h-8 rounded-lg ${isDay ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'} flex items-center justify-center text-sm">
-                                <i class="fa-solid ${isDay ? 'fa-sun' : 'fa-moon'}"></i>
-                            </span>
-                            <div>
-                                <div class="text-sm font-bold text-white">${formatDate(rec.date)}</div>
-                                <div class="text-[10px] text-slate-400">${isDay ? 'နေ့ဆိုင်း (Day)' : 'ညဆိုင်း (Night)'}</div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-3">
-                            <div class="text-right">
-                                <div class="text-base font-extrabold text-red-400">${rec.totalEarned} ฿</div>
-                                <div class="text-[10px] text-slate-400">တစ်နေ့တာ စုစုပေါင်း</div>
-                            </div>
-                            <button type="button" onclick="deleteRecord('${rec.id}')" class="text-slate-400 hover:text-red-400 bg-white/5 hover:bg-red-500/20 p-2 rounded-lg border border-white/10 hover:border-red-500/30 transition-all cursor-pointer" title="ဖျက်မည်">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2 text-[11px] pt-1 text-slate-300">
-                        <div class="bg-white/5 p-1.5 rounded-lg text-center">
-                            <span class="block text-slate-400 text-[10px]">ပုံမှန် (၈နာရီ)</span>
-                            <span class="font-bold text-slate-200">400 ฿</span>
-                        </div>
-                        <div class="bg-amber-500/10 border border-amber-500/20 p-1.5 rounded-lg text-center">
-                            <span class="block text-amber-300/80 text-[10px]">OT (${rec.otHours} နာရီ)</span>
-                            <span class="font-bold text-amber-400">+${rec.otPay} ฿</span>
-                        </div>
-                        <div class="bg-sky-500/10 border border-sky-500/20 p-1.5 rounded-lg text-center">
-                            <span class="block text-sky-300/80 text-[10px]">ထောက်ပံ့ကြေး</span>
-                            <span class="font-bold text-sky-400">+${rec.allowance} ฿</span>
-                        </div>
-                    </div>
-
-                    ${rec.note ? `<div class="text-xs text-slate-400 bg-black/20 p-2 rounded-lg italic flex items-center gap-1.5"><i class="fa-solid fa-sticky-note text-slate-500 text-[10px]"></i> ${escapeHtml(rec.note)}</div>` : ''}
-                `;
-
-                container.appendChild(card);
-            });
-        };
-
-        // Delete Single Record
-        window.deleteRecord = function(id) {
-            if (confirm('ဤမှတ်တမ်းကို ဖျက်ရန် သေချာပါသလား?')) {
-                window.records = window.records.filter(r => String(r.id) !== String(id));
-                window.saveRecords();
-                window.showToast('မှတ်တမ်း ဖျက်ပြီးပါပြီ', 'info');
-            }
-        };
-
-        // Clear All Records
-        window.clearAllRecords = function() {
-            if (window.records.length === 0) {
-                window.showToast('ဖျက်ရန် မှတ်တမ်း မရှိပါ', 'info');
-                return;
-            }
-            if (confirm('မှတ်တမ်းများ အားလုံးကို ဖျက်ရန် သေချာပါသလား?')) {
-                window.records = [];
-                window.saveRecords();
-                window.showToast('မှတ်တမ်းအားလုံး ဖျက်ပြီးပါပြီ', 'info');
-            }
-        };
-
-        // Theme Setters
-        window.setTheme = function(themeClass, save = true) {
-            const body = document.getElementById('appBody');
-            body.style.background = '';
-            body.className = body.className.replace(/bg-theme-\w+/g, '');
-            body.classList.add(themeClass);
-
-            if (save) {
-                localStorage.setItem('letai_work_theme', themeClass);
-                localStorage.removeItem('letai_work_custom_color');
-                window.showToast('Theme ပြောင်းလဲပြီးပါပြီ', 'success');
-            }
-        };
-
-        window.setCustomColor = function(colorHex, save = true) {
-            const body = document.getElementById('appBody');
-            body.className = body.className.replace(/bg-theme-\w+/g, '');
-            body.style.background = `linear-gradient(135deg, ${colorHex} 0%, #090d16 100%)`;
-
-            if (save) {
-                localStorage.setItem('letai_work_custom_color', colorHex);
-                window.showToast('စိတ်ကြိုက် Color သတ်မှတ်ပြီးပါပြီ', 'success');
-            }
-        };
-
-        // Helper Date Formatter
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const d = new Date(dateString);
-            return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-        }
-
-        // Escape HTML
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        // Toast Notification System
-        window.showToast = function(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            const toastIcon = document.getElementById('toastIcon');
-
-            toastMsg.innerText = message;
-
-            if (type === 'success') {
-                toastIcon.className = "fa-solid fa-circle-check text-red-400 text-lg";
-            } else {
-                toastIcon.className = "fa-solid fa-circle-info text-amber-400 text-lg";
-            }
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
-        };
-    </script>
-</body>
-</html>
-```
+                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg ${isDay ? 'bg-amber-500/20 text-amber-300' : 'bg-indigo-500/20 text-indigo-300'} flex items-center justify-center">
+                                <i class="fa-solid ${isDay ? 'fa-sun' : 'fa
