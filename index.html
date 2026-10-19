@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>letai - အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ တွက်စနစ်</title>
+    <title>letai - Work & OT Tracker</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -72,7 +72,7 @@
 
     <div class="container mx-auto px-3 sm:px-4 py-6 max-w-5xl relative z-10 flex-grow">
         
-        <!-- Header -->
+        <!-- Header Bar -->
         <header class="glass-panel rounded-3xl p-5 md:p-7 mb-6 flex flex-col md:flex-row justify-between items-center gap-5 border-t-4 border-red-500">
             <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
                 <div class="flex items-center gap-4">
@@ -89,13 +89,23 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Language Selector Dropdown -->
+                <div class="flex items-center gap-2 bg-slate-900/80 px-3 py-1.5 rounded-2xl border border-white/10">
+                    <i class="fa-solid fa-globe text-red-400 text-xs"></i>
+                    <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-xs font-bold text-slate-200 outline-none cursor-pointer">
+                        <option value="my" class="bg-slate-900 text-white">🇲🇲 မြန်မာ</option>
+                        <option value="th" class="bg-slate-900 text-white">🇹🇭 ไทย</option>
+                        <option value="zh" class="bg-slate-900 text-white">🇨🇳 中文</option>
+                        <option value="en" class="bg-slate-900 text-white">🇺🇸 English</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Profile & Logout Bar -->
             <div class="flex items-center gap-3">
                 <div id="userAccountSection" class="hidden flex items-center gap-3 bg-slate-900/90 p-2 pr-4 rounded-2xl border border-white/10 shadow-lg">
-                    <!-- Custom Profile Picture Upload Container -->
-                    <div class="relative group cursor-pointer" onclick="document.getElementById('profilePicInput').click()" title="Profile ပုံပြောင်းမည်">
+                    <div class="relative group cursor-pointer" onclick="document.getElementById('profilePicInput').click()" title="Profile Picture">
                         <img id="userAvatar" src="https://placehold.co/100x100/1e293b/white?text=U" alt="User" class="w-10 h-10 rounded-xl object-cover border-2 border-red-500">
                         <div class="absolute inset-0 bg-black/50 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <i class="fa-solid fa-camera text-white text-xs"></i>
@@ -108,25 +118,25 @@
                         <div id="userEmail" class="text-[10px] text-slate-400">email</div>
                     </div>
                     <button type="button" onclick="handleLogout()" class="ml-2 text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 p-2 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition-all">
-                        <i class="fa-solid fa-right-from-bracket"></i> ထွက်မည်
+                        <i class="fa-solid fa-right-from-bracket"></i> <span id="txtLogout">ထွက်မည်</span>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Admin OT Notification Announcement Box -->
+        <!-- Admin OT Notification Box -->
         <div id="adminNotiBox" class="hidden glass-panel rounded-2xl p-4 mb-6 border-l-4 border-amber-500 flex items-center justify-between gap-4 bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-slate-900/90 shadow-xl">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg shrink-0">
                     <i class="fa-solid fa-bell animate-bounce"></i>
                 </div>
                 <div>
-                    <div class="text-xs font-bold text-amber-400 uppercase tracking-wider">Admin Leader OT အသိပေးချက်</div>
+                    <div id="txtNotiTitle" class="text-xs font-bold text-amber-400 uppercase tracking-wider">Admin Leader OT အသိပေးချက်</div>
                     <div id="adminNotiText" class="text-xs font-semibold text-slate-200 mt-0.5">ယနေ့အတွက် OT အသိပေးချက် မရှိသေးပါ။</div>
                 </div>
             </div>
             <button type="button" onclick="playNotiSound()" class="text-xs text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-xl border border-amber-500/20 flex items-center gap-1 shrink-0 cursor-pointer">
-                <i class="fa-solid fa-volume-high"></i> အသံစမ်းရန်
+                <i class="fa-solid fa-volume-high"></i> <span id="txtSoundTest">အသံစမ်းရန်</span>
             </button>
         </div>
 
@@ -135,8 +145,8 @@
             <div class="w-20 h-20 bg-red-500/10 border border-red-500/30 rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-inner">
                 <i class="fa-solid fa-user-lock text-3xl text-red-400"></i>
             </div>
-            <h2 class="text-2xl font-black text-white mb-2">မင်္ဂလာပါ</h2>
-            <p class="text-xs text-slate-300 mb-6 leading-relaxed">သင့်၏ အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ စာရင်းများကို လုံခြုံစွာ သိမ်းဆည်းရန် Login ဝင်ရောက်ပါ။</p>
+            <h2 id="txtWelcome" class="text-2xl font-black text-white mb-2">မင်္ဂလာပါ</h2>
+            <p id="txtLoginSub" class="text-xs text-slate-300 mb-6 leading-relaxed">သင့်၏ အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ စာရင်းများကို လုံခြုံစွာ သိမ်းဆည်းရန် Login ဝင်ရောက်ပါ။</p>
             
             <div id="loginFormContainer" class="space-y-3">
                 <button type="button" onclick="handleGoogleLoginPrompt()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-3.5 px-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 cursor-pointer transition-all">
@@ -146,35 +156,60 @@
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                     </svg>
-                    <span>Google / Gmail ဖြင့် Login ဝင်ရန်</span>
+                    <span id="txtGoogleBtn">Google / Gmail ဖြင့် Login ဝင်ရန်</span>
                 </button>
             </div>
 
             <div class="mt-6 border-t border-white/10 pt-4">
-                <button type="button" onclick="continueAsGuest()" class="text-xs text-slate-400 hover:text-white underline cursor-pointer">
+                <button type="button" onclick="continueAsGuest()" id="txtGuestBtn" class="text-xs text-slate-400 hover:text-white underline cursor-pointer">
                     အကောင့်မသုံးဘဲ Offline ပဲ စမ်းသပ်သုံးမည်
                 </button>
             </div>
         </div>
 
         <!-- Main Dashboard -->
-        <div id="mainDashboard" class="hidden">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+        <div id="mainDashboard" class="hidden space-y-6">
+            
+            <!-- Management Team / Leadership Section -->
+            <div class="glass-panel rounded-3xl p-5 md:p-6 shadow-xl">
+                <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
+                    <h2 id="txtLeadersTitle" class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-red-400"></i> စက်ရုံအထက်လူကြီးများ (Management Team)
+                    </h2>
+                    <button type="button" id="adminToggleBtn" onclick="toggleAdminMode()" class="hidden text-xs text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-xl border border-amber-500/20 cursor-pointer transition-all">
+                        <i class="fa-solid fa-lock-open mr-1"></i> <span id="txtAdminManage">Admin စီမံခန့်ခွဲရန်</span>
+                    </button>
+                </div>
+
+                <!-- Admin Add Leader Form -->
+                <div id="adminLeaderFormContainer" class="hidden mb-4 p-4 bg-black/40 rounded-2xl border border-amber-500/30 space-y-3">
+                    <h3 id="txtAddLeaderTitle" class="text-xs font-bold text-amber-400 uppercase">လူကြီးအသစ် ထည့်သွင်းရန် (Admin Only)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" id="newLeaderName" placeholder="Name & Position" class="glass-input rounded-xl px-3 py-2 text-xs">
+                        <input type="text" id="newLeaderPhoto" placeholder="Photo URL" class="glass-input rounded-xl px-3 py-2 text-xs">
+                        <button type="button" onclick="addNewLeader()" id="btnAddLeader" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition-all cursor-pointer">ထည့်မည်</button>
+                    </div>
+                </div>
+
+                <div id="leadersContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 <div class="glass-panel p-4 md:p-5 rounded-2xl border border-red-500/30 col-span-2 sm:col-span-1 shadow-lg">
-                    <span class="text-xs text-red-300 font-medium">စုစုပေါင်း ဝင်ငွေ</span>
+                    <span id="statTitleIncome" class="text-xs text-red-300 font-medium">စုစုပေါင်း ဝင်ငွေ</span>
                     <div class="mt-2"><span id="statTotalIncome" class="text-2xl md:text-3xl font-extrabold text-red-400">0</span> <span class="text-xs text-red-300">THB</span></div>
                 </div>
                 <div class="glass-panel p-4 md:p-5 rounded-2xl border border-amber-500/25 shadow-lg">
-                    <span class="text-xs text-amber-300 font-medium">OT နာရီ & ကြေး</span>
-                    <div class="mt-2 text-amber-400 font-bold text-lg"><span id="statTotalOtHours">0</span> နာရီ <div class="text-xs font-normal text-amber-300/80">(<span id="statTotalOtPay">0</span> ฿)</div></div>
+                    <span id="statTitleOt" class="text-xs text-amber-300 font-medium">OT နာရီ & ကြေး</span>
+                    <div class="mt-2 text-amber-400 font-bold text-lg"><span id="statTotalOtHours">0</span> <span id="lblHours">နာရီ</span> <div class="text-xs font-normal text-amber-300/80">(<span id="statTotalOtPay">0</span> ฿)</div></div>
                 </div>
                 <div class="glass-panel p-4 md:p-5 rounded-2xl border border-sky-500/25 shadow-lg">
-                    <span class="text-xs text-sky-300 font-medium">ထောက်ပံ့ကြေး</span>
+                    <span id="statTitleAllowance" class="text-xs text-sky-300 font-medium">ထောက်ပံ့ကြေး</span>
                     <div class="mt-2 text-sky-400 font-bold text-xl"><span id="statTotalAllowance">0</span> <span class="text-xs">฿</span></div>
                 </div>
                 <div class="glass-panel p-4 md:p-5 rounded-2xl border border-indigo-500/25 shadow-lg">
-                    <span class="text-xs text-slate-300 font-medium">အလုပ်ဆင်းရက်</span>
-                    <div class="mt-2 text-white font-bold text-lg"><span id="statTotalDays">0</span> ရက် <div class="text-[11px] font-normal text-slate-300">☀️<span id="statDayShift">0</span> | 🌙<span id="statNightShift">0</span></div></div>
+                    <span id="statTitleDays" class="text-xs text-slate-300 font-medium">အလုပ်ဆင်းရက်</span>
+                    <div class="mt-2 text-white font-bold text-lg"><span id="statTotalDays">0</span> <span id="lblDays">ရက်</span> <div class="text-[11px] font-normal text-slate-300">☀️<span id="statDayShift">0</span> | 🌙<span id="statNightShift">0</span></div></div>
                 </div>
             </div>
 
@@ -182,91 +217,88 @@
                 <!-- Form Input Section -->
                 <div class="lg:col-span-5">
                     <div class="glass-panel rounded-3xl p-5 md:p-6 shadow-xl space-y-4">
-                        <h2 class="text-base font-bold text-white border-b border-white/10 pb-3 flex items-center gap-2">
+                        <h2 id="txtFormTitle" class="text-base font-bold text-white border-b border-white/10 pb-3 flex items-center gap-2">
                             <i class="fa-solid fa-file-pen text-red-400"></i> နေ့စဉ်မှတ်တမ်း အသစ်ထည့်ရန်
                         </h2>
                         <form id="recordForm" class="space-y-4">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">ရက်စွဲ</label>
+                                <label id="lblDate" class="block text-xs font-semibold text-slate-300 mb-1">ရက်စွဲ</label>
                                 <input type="date" id="recordDate" class="w-full glass-input rounded-2xl px-3.5 py-3 text-sm font-medium" required>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">အဆိုင်း (Shift)</label>
+                                <label id="lblShift" class="block text-xs font-semibold text-slate-300 mb-1.5">အဆိုင်း (Shift)</label>
                                 <div class="grid grid-cols-2 gap-2.5">
-                                    <button type="button" id="btnShiftDay" onclick="selectShift('DAY')" class="py-3 rounded-2xl border text-xs font-bold bg-amber-500/20 border-amber-500/50 text-amber-300 cursor-pointer shadow-md transition-all">☀️ နေ့ဆိုင်း (Day)</button>
-                                    <button type="button" id="btnShiftNight" onclick="selectShift('NIGHT')" class="py-3 rounded-2xl border border-white/10 text-xs font-bold text-slate-400 cursor-pointer hover:bg-white/5 transition-all">🌙 ညဆိုင်း (Night)</button>
+                                    <button type="button" id="btnShiftDay" onclick="selectShift('DAY')" class="py-3 rounded-2xl border text-xs font-bold bg-amber-500/20 border-amber-500/50 text-amber-300 cursor-pointer shadow-md transition-all">☀️ <span id="txtShiftDay">နေ့ဆိုင်း (Day)</span></button>
+                                    <button type="button" id="btnShiftNight" onclick="selectShift('NIGHT')" class="py-3 rounded-2xl border border-white/10 text-xs font-bold text-slate-400 cursor-pointer hover:bg-white/5 transition-all">🌙 <span id="txtShiftNight">ညဆိုင်း (Night)</span></button>
                                 </div>
                             </div>
                             <div class="bg-white/5 rounded-2xl p-3.5 text-xs flex justify-between items-center border border-white/5">
-                                <span class="text-slate-300">ပုံမှန် ၈ နာရီ လုပ်အားခ:</span>
+                                <span id="lblBaseRate" class="text-slate-300">ပုံမှန် ၈ နာရီ လုပ်အားခ:</span>
                                 <span class="font-bold text-red-400 text-sm">400 THB</span>
                             </div>
 
                             <!-- OT Section -->
                             <div>
                                 <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-semibold text-slate-300">OT နာရီ (၁ နာရီ = ၇၅ ဘတ်)</label>
+                                    <label id="lblOtRate" class="text-xs font-semibold text-slate-300">OT နာရီ (၁ နာရီ = ၇၅ ဘတ်)</label>
                                     <span id="otPayPreview" class="text-xs text-amber-400 font-bold">+0 ฿</span>
                                 </div>
                                 <input type="number" id="otHours" step="0.5" min="0" placeholder="0" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-2xl px-3.5 py-3 text-sm text-amber-400 font-bold mb-2">
                                 <div class="grid grid-cols-5 gap-1.5">
-                                    <button type="button" onclick="setOtHours(1)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">1 နာရီ</button>
-                                    <button type="button" onclick="setOtHours(1.5)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">1.5 နာရီ</button>
-                                    <button type="button" onclick="setOtHours(2)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">2 နာရီ</button>
-                                    <button type="button" onclick="setOtHours(2.5)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">2.5 နာရီ</button>
-                                    <button type="button" onclick="setOtHours(3)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">3 နာရီ</button>
+                                    <button type="button" onclick="setOtHours(1)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">1h</button>
+                                    <button type="button" onclick="setOtHours(1.5)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">1.5h</button>
+                                    <button type="button" onclick="setOtHours(2)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">2h</button>
+                                    <button type="button" onclick="setOtHours(2.5)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">2.5h</button>
+                                    <button type="button" onclick="setOtHours(3)" class="bg-white/5 hover:bg-amber-500/20 border border-white/10 text-xs py-1.5 rounded-xl font-bold text-slate-200 cursor-pointer transition-colors">3h</button>
                                 </div>
                             </div>
 
-                            <!-- Allowance Section with 3 Types & Options (30฿, 40฿, 50฿, Custom) -->
+                            <!-- Allowance Section -->
                             <div class="space-y-3 bg-black/20 p-3.5 rounded-2xl border border-white/10">
-                                <label class="block text-xs font-semibold text-sky-300">ထောက်ပံ့ကြေး စရိတ်များ (Allowance Options)</label>
+                                <label id="lblAllowanceGroup" class="block text-xs font-semibold text-sky-300">ထောက်ပံ့ကြေး စရိတ်များ (Allowance Options)</label>
                                 
-                                <!-- 1. စားသောက်စရိတ် -->
                                 <div>
                                     <div class="flex justify-between items-center text-[11px] text-slate-300 mb-1">
-                                        <span>🍜 စားသောက်စရိတ်</span>
+                                        <span id="lblFood">🍜 စားသောက်စရိတ်</span>
                                         <div class="flex gap-1">
-                                            <button type="button" onclick="setAllowanceType('food', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">30฿</button>
-                                            <button type="button" onclick="setAllowanceType('food', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">40฿</button>
-                                            <button type="button" onclick="setAllowanceType('food', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">50฿</button>
+                                            <button type="button" onclick="setAllowanceType('food', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">30฿</button>
+                                            <button type="button" onclick="setAllowanceType('food', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">40฿</button>
+                                            <button type="button" onclick="setAllowanceType('food', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">50฿</button>
                                         </div>
                                     </div>
-                                    <input type="number" id="allowanceFood" min="0" placeholder="စိတ်ကြိုက်ပမာဏ (Custom ฿)" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
+                                    <input type="number" id="allowanceFood" min="0" placeholder="Custom ฿" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
                                 </div>
 
-                                <!-- 2. ယာဉ်စရိတ် -->
                                 <div>
                                     <div class="flex justify-between items-center text-[11px] text-slate-300 mb-1">
-                                        <span>🚌 ယာဉ်စရိတ်</span>
+                                        <span id="lblTrans">🚌 ယာဉ်စရိတ်</span>
                                         <div class="flex gap-1">
-                                            <button type="button" onclick="setAllowanceType('trans', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">30฿</button>
-                                            <button type="button" onclick="setAllowanceType('trans', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">40฿</button>
-                                            <button type="button" onclick="setAllowanceType('trans', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">50฿</button>
+                                            <button type="button" onclick="setAllowanceType('trans', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">30฿</button>
+                                            <button type="button" onclick="setAllowanceType('trans', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">40฿</button>
+                                            <button type="button" onclick="setAllowanceType('trans', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">50฿</button>
                                         </div>
                                     </div>
-                                    <input type="number" id="allowanceTrans" min="0" placeholder="စိတ်ကြိုက်ပမာဏ (Custom ฿)" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
+                                    <input type="number" id="allowanceTrans" min="0" placeholder="Custom ฿" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
                                 </div>
 
-                                <!-- 3. အခန်းခ -->
                                 <div>
                                     <div class="flex justify-between items-center text-[11px] text-slate-300 mb-1">
-                                        <span>🏠 အခန်းခ</span>
+                                        <span id="lblRoom">🏠 အခန်းခ</span>
                                         <div class="flex gap-1">
-                                            <button type="button" onclick="setAllowanceType('room', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">30฿</button>
-                                            <button type="button" onclick="setAllowanceType('room', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">40฿</button>
-                                            <button type="button" onclick="setAllowanceType('room', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/30 text-sky-300 border border-sky-500/20">50฿</button>
+                                            <button type="button" onclick="setAllowanceType('room', 30)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">30฿</button>
+                                            <button type="button" onclick="setAllowanceType('room', 40)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">40฿</button>
+                                            <button type="button" onclick="setAllowanceType('room', 50)" class="px-2 py-0.5 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">50฿</button>
                                         </div>
                                     </div>
-                                    <input type="number" id="allowanceRoom" min="0" placeholder="စိတ်ကြိုက်ပမာဏ (Custom ฿)" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
+                                    <input type="number" id="allowanceRoom" min="0" placeholder="Custom ฿" oninput="updateCalculationsPreview()" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-sky-300 font-semibold">
                                 </div>
                             </div>
 
                             <div class="p-4 bg-gradient-to-r from-red-950/60 to-slate-900/80 rounded-2xl border border-red-500/40 flex justify-between items-center shadow-lg">
-                                <span class="text-xs text-slate-200 font-semibold">တစ်နေ့တာ စုစုပေါင်း ရမည်:</span>
+                                <span id="lblDailyEarned" class="text-xs text-slate-200 font-semibold">တစ်နေ့တာ စုစုပေါင်း ရမည်:</span>
                                 <span id="dailyTotalPreview" class="text-xl font-black text-red-400">400 ဘတ်</span>
                             </div>
-                            <button type="submit" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold py-3.5 rounded-2xl shadow-xl shadow-red-600/30 cursor-pointer transition-all">မှတ်တမ်းတင်မည်</button>
+                            <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold py-3.5 rounded-2xl shadow-xl shadow-red-600/30 cursor-pointer transition-all">မှတ်တမ်းတင်မည်</button>
                         </form>
                     </div>
                 </div>
@@ -275,23 +307,23 @@
                 <div class="lg:col-span-7 space-y-6">
                     <div class="glass-panel rounded-3xl p-5 md:p-6 shadow-xl">
                         <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <h2 id="txtRecordsTitle" class="text-base font-bold text-white flex items-center gap-2">
                                 <i class="fa-solid fa-clock-rotate-left text-red-400"></i> မှတ်တမ်းများ
                             </h2>
-                            <button type="button" onclick="clearAllRecords()" class="text-xs text-red-400 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-xl border border-red-500/20 cursor-pointer transition-all">အားလုံးဖျက်မည်</button>
+                            <button type="button" onclick="clearAllRecords()" id="btnClearAll" class="text-xs text-red-400 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-xl border border-red-500/20 cursor-pointer transition-all">အားလုံးဖျက်မည်</button>
                         </div>
                         <div id="recordsContainer" class="space-y-3 max-h-[360px] overflow-y-auto pr-1"></div>
                     </div>
 
                     <!-- Admin Leader Chatbox -->
                     <div class="glass-panel rounded-3xl p-5 md:p-6 shadow-xl">
-                        <h2 class="text-base font-bold text-white border-b border-white/10 pb-3 mb-3 flex items-center gap-2">
+                        <h2 id="txtChatTitle" class="text-base font-bold text-white border-b border-white/10 pb-3 mb-3 flex items-center gap-2">
                             <i class="fa-solid fa-comments text-indigo-400"></i> Admin / Leader ထံ စာမေးရန် (Chatbox)
                         </h2>
                         <div id="chatMessages" class="bg-black/30 rounded-2xl p-3 h-36 overflow-y-auto space-y-2 text-xs border border-white/5 mb-3">
                             <div class="bg-indigo-500/20 border border-indigo-500/30 text-indigo-200 p-2 rounded-xl max-w-[85%]">
                                 <span class="font-bold text-[10px] block text-indigo-400">Admin Leader</span>
-                                မင်္ဂလာပါ၊ အလုပ်ချိန် သို့မဟုတ် OT နှင့် ပတ်သက်၍ မသိတာရှိပါက မေးမြန်းနိုင်ပါသည်။
+                                <span id="txtChatWelcome">မင်္ဂလာပါ၊ အလုပ်ချိန် သို့မဟုတ် OT နှင့် ပတ်သက်၍ မသိတာရှိပါက မေးမြန်းနိုင်ပါသည်။</span>
                             </div>
                         </div>
                         <form id="chatForm" onsubmit="sendChatMessage(event)" class="flex gap-2">
@@ -320,16 +352,192 @@
         const BASE_DAILY_RATE = 400;
         const OT_HOURLY_RATE = 75;
         window.selectedShift = 'DAY';
+        window.currentLang = localStorage.getItem('letai_lang') || 'my';
         window.currentUser = JSON.parse(localStorage.getItem('letai_logged_user')) || null;
+
+        // Language Dictionary (Myanmar, Thai, Chinese, English)
+        const i18n = {
+            my: {
+                logout: "ထွက်မည်", welcome: "မင်္ဂလာပါ", loginSub: "သင့်၏ အလုပ်ချိန်၊ OT နှင့် လုပ်အားခ စာရင်းများကို လုံခြုံစွာ သိမ်းဆည်းရန် Login ဝင်ရောက်ပါ။",
+                googleBtn: "Google / Gmail ဖြင့် Login ဝင်ရန်", guestBtn: "အကောင့်မသုံးဘဲ Offline ပဲ စမ်းသပ်သုံးမည်",
+                notiTitle: "Admin Leader OT အသိပေးချက်", soundTest: "အသံစမ်းရန်", leadersTitle: "စက်ရုံအထက်လူကြီးများ (Management Team)",
+                adminManage: "Admin စီမံခန့်ခွဲရန်", addLeaderTitle: "လူကြီးအသစ် ထည့်သွင်းရန် (Admin Only)", addBtn: "ထည့်မည်",
+                totalIncome: "စုစုပေါင်း ဝင်ငွေ", otHoursPay: "OT နာရီ & ကြေး", allowance: "ထောက်ပံ့ကြေး", daysCount: "အလုပ်ဆင်းရက်",
+                hours: "နာရီ", days: "ရက်", formTitle: "နေ့စဉ်မှတ်တမ်း အသစ်ထည့်ရန်", date: "ရက်စွဲ", shift: "အဆိုင်း (Shift)",
+                shiftDay: "နေ့ဆိုင်း (Day)", shiftNight: "ညဆိုင်း (Night)", baseRate: "ပုံမှန် ၈ နာရီ လုပ်အားခ:",
+                otRate: "OT နာရီ (၁ နာရီ = ၇၅ ဘတ်)", allowanceGroup: "ထောက်ပံ့ကြေး စရိတ်များ (Allowance Options)",
+                food: "🍜 စားသောက်စရိတ်", trans: "🚌 ယာဉ်စရိတ်", room: "🏠 အခန်းခ", dailyEarned: "တစ်နေ့တာ စုစုပေါင်း ရမည်:",
+                submit: "မှတ်တမ်းတင်မည်", recordsTitle: "မှတ်တမ်းများ", clearAll: "အားလုံးဖျက်မည်", chatTitle: "Admin / Leader ထံ စာမေးရန် (Chatbox)",
+                chatWelcome: "မင်္ဂလာပါ၊ အလုပ်ချိန် သို့မဟုတ် OT နှင့် ပတ်သက်၍ မသိတာရှိပါက မေးမြန်းနိုင်ပါသည်။"
+            },
+            th: {
+                logout: "ออกจากระบบ", welcome: "สวัสดี", loginSub: "เข้าสู่ระบบเพื่อบันทึกเวลาทำงาน โอที และค่าจ้างอย่างปลอดภัย",
+                googleBtn: "เข้าสู่ระบบด้วย Google / Gmail", guestBtn: "ทดลองใช้งานโหมดออฟไลน์",
+                notiTitle: "ประกาศ OT จากผู้ดูแล", soundTest: "ทดสอบเสียง", leadersTitle: "ทีมบริหารโรงงาน (Management Team)",
+                adminManage: "การจัดการของผู้ดูแล", addLeaderTitle: "เพิ่มผู้บริหารใหม่ (สำหรับ Admin)", addBtn: "เพิ่ม",
+                totalIncome: "รายได้รวม", otHoursPay: "ชั่วโมง OT & ค่าตอบแทน", allowance: "เบี้ยเลี้ยง", daysCount: "วันทำงาน",
+                hours: "ชม.", days: "วัน", formTitle: "บันทึกข้อมูลประจำวัน", date: "วันที่", shift: "กะการทำงาน",
+                shiftDay: "กะกลางวัน (Day)", shiftNight: "กะกลางคืน (Night)", baseRate: "ค่าจ้างปกติ 8 ชม.:",
+                otRate: "ค่า OT (1 ชม. = 75 บาท)", allowanceGroup: "สวัสดิการและเบี้ยเลี้ยง (Allowance Options)",
+                food: "🍜 ค่าอาหาร", trans: "🚌 ค่าเดินทาง", room: "🏠 ค่าที่พัก", dailyEarned: "รายได้รวมวันนี้:",
+                submit: "บันทึกข้อมูล", recordsTitle: "ประวัติการบันทึก", clearAll: "ลบทั้งหมด", chatTitle: "แชทติดต่อผู้ดูแล (Chatbox)",
+                chatWelcome: "สวัสดีครับ หากมีข้อสงสัยเกี่ยวกับเวลาทำงานหรือ OT สามารถสอบถามได้ครับ"
+            },
+            zh: {
+                logout: "退出登录", welcome: "你好", loginSub: "请登录以安全保存您的工作时间、加班费及工资记录。",
+                googleBtn: "使用 Google / Gmail 登录", guestBtn: "离线试用模式",
+                notiTitle: "管理员 OT 通知", soundTest: "测试声音", leadersTitle: "工厂管理团队 (Management Team)",
+                adminManage: "管理员管理", addLeaderTitle: "添加新管理者 (仅限管理员)", addBtn: "添加",
+                totalIncome: "总收入", otHoursPay: "加班时间与工薪", allowance: "津贴补贴", daysCount: "工作天数",
+                hours: "小时", days: "天", formTitle: "添加每日记录", date: "日期", shift: "班次 (Shift)",
+                shiftDay: "白班 (Day)", shiftNight: "夜班 (Night)", baseRate: "正常8小时工资:",
+                otRate: "加班费 (1小时 = 75 铢)", allowanceGroup: "各项补贴 (Allowance Options)",
+                food: "🍜 餐饮补贴", trans: "🚌 交通补贴", room: "🏠 住房补贴", dailyEarned: "今日预计总收入:",
+                submit: "提交记录", recordsTitle: "历史记录", clearAll: "清空全部", chatTitle: "联系管理员 (Chatbox)",
+                chatWelcome: "您好！如果您对工作时间或 OT 有任何疑问，请随时询问。"
+            },
+            en: {
+                logout: "Logout", welcome: "Welcome", loginSub: "Log in to securely save your work hours, OT, and wage records.",
+                googleBtn: "Log in with Google / Gmail", guestBtn: "Try Offline Guest Mode",
+                notiTitle: "Admin Leader OT Notice", soundTest: "Test Sound", leadersTitle: "Factory Management Team",
+                adminManage: "Admin Settings", addLeaderTitle: "Add New Leader (Admin Only)", addBtn: "Add",
+                totalIncome: "Total Income", otHoursPay: "OT Hours & Pay", allowance: "Allowance", daysCount: "Days Worked",
+                hours: "hrs", days: "days", formTitle: "Add Daily Record", date: "Date", shift: "Shift Type",
+                shiftDay: "Day Shift", shiftNight: "Night Shift", baseRate: "Base Pay (8 hrs):",
+                otRate: "OT Rate (1 hr = 75 THB)", allowanceGroup: "Allowance Options",
+                food: "🍜 Food Allowance", trans: "🚌 Transport", room: "🏠 Housing", dailyEarned: "Total Earned Today:",
+                submit: "Save Record", recordsTitle: "Records History", clearAll: "Clear All", chatTitle: "Chat with Admin / Leader",
+                chatWelcome: "Hello! Feel free to ask any questions regarding work hours or OT."
+            }
+        };
+
+        const DEFAULT_LEADERS = [
+            { name: "U Kyaw Min", role: "Plant Director", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" },
+            { name: "Daw Mya Mya", role: "HR Manager", photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" },
+            { name: "U Hla Tun", role: "Production Head", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" },
+            { name: "Daw Nilar", role: "Quality Control", photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" },
+            { name: "Ko Lin Lin", role: "Shift Supervisor", photo: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80" },
+            { name: "Ko Soe Moe", role: "Maintenance Lead", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80" },
+            { name: "Daw Thin Thin", role: "Finance Manager", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" },
+            { name: "Ko Naing Win", role: "Packaging Leader", photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80" },
+            { name: "Daw Su Su", role: "Safety Officer", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" },
+            { name: "Ko Zaw Min", role: "Warehouse Chief", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" }
+        ];
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('recordDate').valueAsDate = new Date();
+            document.getElementById('langSelect').value = window.currentLang;
+            window.changeLanguage(window.currentLang);
+
             if (window.currentUser) {
                 showDashboard(window.currentUser);
             }
             loadAdminNotification();
-            loadChatMessages();
+            renderLeadersList();
         });
+
+        // Switch Language UI Function
+        window.changeLanguage = function(lang) {
+            window.currentLang = lang;
+            localStorage.setItem('letai_lang', lang);
+            const dict = i18n[lang] || i18n.my;
+
+            document.getElementById('txtLogout').innerText = dict.logout;
+            document.getElementById('txtWelcome').innerText = dict.welcome;
+            document.getElementById('txtLoginSub').innerText = dict.loginSub;
+            document.getElementById('txtGoogleBtn').innerText = dict.googleBtn;
+            document.getElementById('txtGuestBtn').innerText = dict.guestBtn;
+            document.getElementById('txtNotiTitle').innerText = dict.notiTitle;
+            document.getElementById('txtSoundTest').innerText = dict.soundTest;
+            document.getElementById('txtLeadersTitle').innerHTML = `<i class="fa-solid fa-users-gear text-red-400"></i> ${dict.leadersTitle}`;
+            document.getElementById('txtAdminManage').innerText = dict.adminManage;
+            document.getElementById('txtAddLeaderTitle').innerText = dict.addLeaderTitle;
+            document.getElementById('btnAddLeader').innerText = dict.addBtn;
+            document.getElementById('statTitleIncome').innerText = dict.totalIncome;
+            document.getElementById('statTitleOt').innerText = dict.otHoursPay;
+            document.getElementById('statTitleAllowance').innerText = dict.allowance;
+            document.getElementById('statTitleDays').innerText = dict.daysCount;
+            document.getElementById('lblHours').innerText = dict.hours;
+            document.getElementById('lblDays').innerText = dict.days;
+            document.getElementById('txtFormTitle').innerHTML = `<i class="fa-solid fa-file-pen text-red-400"></i> ${dict.formTitle}`;
+            document.getElementById('lblDate').innerText = dict.date;
+            document.getElementById('lblShift').innerText = dict.shift;
+            document.getElementById('txtShiftDay').innerText = dict.shiftDay;
+            document.getElementById('txtShiftNight').innerText = dict.shiftNight;
+            document.getElementById('lblBaseRate').innerText = dict.baseRate;
+            document.getElementById('lblOtRate').innerText = dict.otRate;
+            document.getElementById('lblAllowanceGroup').innerText = dict.allowanceGroup;
+            document.getElementById('lblFood').innerText = dict.food;
+            document.getElementById('lblTrans').innerText = dict.trans;
+            document.getElementById('lblRoom').innerText = dict.room;
+            document.getElementById('lblDailyEarned').innerText = dict.dailyEarned;
+            document.getElementById('btnSubmit').innerText = dict.submit;
+            document.getElementById('txtRecordsTitle').innerHTML = `<i class="fa-solid fa-clock-rotate-left text-red-400"></i> ${dict.recordsTitle}`;
+            document.getElementById('btnClearAll').innerText = dict.clearAll;
+            document.getElementById('txtChatTitle').innerHTML = `<i class="fa-solid fa-comments text-indigo-400"></i> ${dict.chatTitle}`;
+            document.getElementById('txtChatWelcome').innerText = dict.chatWelcome;
+        };
+
+        function renderLeadersList() {
+            const container = document.getElementById('leadersContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let leaders = JSON.parse(localStorage.getItem('letai_leaders_list')) || DEFAULT_LEADERS;
+            const isAdmin = window.currentUser && window.currentUser.email === 'admin@letai.com';
+
+            leaders.forEach((leader, index) => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-3 text-center space-y-2 border border-white/10 hover:border-red-500/40 transition-all relative group";
+                
+                let deleteBtn = isAdmin ? `<button onclick="deleteLeader(${index})" class="absolute top-2 right-2 bg-red-600/80 hover:bg-red-600 text-white w-6 h-6 rounded-full text-[10px] flex items-center justify-center cursor-pointer shadow-md"><i class="fa-solid fa-xmark"></i></button>` : '';
+
+                card.innerHTML = `
+                    ${deleteBtn}
+                    <div class="relative w-16 h-16 mx-auto">
+                        <img src="${leader.photo}" alt="${leader.name}" class="w-16 h-16 rounded-2xl object-cover border-2 border-red-500/60 shadow-md">
+                        <div class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900" title="Active"></div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white truncate">${leader.name}</div>
+                        <div class="text-[10px] text-amber-400 font-medium truncate">${leader.role}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.toggleAdminMode = function() {
+            const form = document.getElementById('adminLeaderFormContainer');
+            if (form) form.classList.toggle('hidden');
+        };
+
+        window.addNewLeader = function() {
+            const nameInput = document.getElementById('newLeaderName');
+            const photoInput = document.getElementById('newLeaderPhoto');
+            if (!nameInput.value.trim()) return alert('Name required');
+
+            let leaders = JSON.parse(localStorage.getItem('letai_leaders_list')) || DEFAULT_LEADERS;
+            leaders.push({
+                name: nameInput.value.trim(),
+                role: "Management Team",
+                photo: photoInput.value.trim() || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80"
+            });
+
+            localStorage.setItem('letai_leaders_list', JSON.stringify(leaders));
+            nameInput.value = '';
+            photoInput.value = '';
+            renderLeadersList();
+        };
+
+        window.deleteLeader = function(index) {
+            if (confirm('Delete profile?')) {
+                let leaders = JSON.parse(localStorage.getItem('letai_leaders_list')) || DEFAULT_LEADERS;
+                leaders.splice(index, 1);
+                localStorage.setItem('letai_leaders_list', JSON.stringify(leaders));
+                renderLeadersList();
+            }
+        };
 
         function playNotiSound() {
             const audio = document.getElementById('notiAudio');
@@ -344,7 +552,8 @@
             adminBox.classList.remove('hidden');
 
             const today = new Date().toLocaleDateString('en-GB');
-            adminText.innerText = `[${today}] ဒီနေ့ အဆိုင်းအားလုံး OT (၂) နာရီရှိပါသည်။ ပုံမှန်အတိုင်း ဆင်းပေးကြပါရန်။`;
+            adminText.innerText = `[${today}] OT Notice: 2 Hours today.`;
+            playNotiSound();
         }
 
         window.uploadProfilePicture = function(event) {
@@ -364,7 +573,7 @@
         };
 
         window.handleGoogleLoginPrompt = function() {
-            const email = prompt("သင့်၏ Gmail လိပ်စာ ရိုက်ထည့်ပါ:", "kyawswar@gmail.com");
+            const email = prompt("Gmail (Admin: admin@letai.com):", "kyawswar@gmail.com");
             if (email && email.trim() !== "") {
                 const name = email.split('@')[0];
                 const userObj = {
@@ -379,7 +588,7 @@
         };
 
         window.continueAsGuest = function() {
-            const guestObj = { name: "GUEST USER", email: "Offline Mode", photo: "https://placehold.co/100x100/334155/white?text=G" };
+            const guestObj = { name: "GUEST USER", email: "guest@letai.com", photo: "https://placehold.co/100x100/334155/white?text=G" };
             showDashboard(guestObj);
         };
 
@@ -392,7 +601,14 @@
             document.getElementById('userEmail').innerText = user.email;
             document.getElementById('userAvatar').src = user.photo;
 
+            if (user.email === 'admin@letai.com') {
+                document.getElementById('adminToggleBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('adminToggleBtn').classList.add('hidden');
+            }
+
             window.loadUserRecords();
+            renderLeadersList();
         }
 
         window.handleLogout = function() {
@@ -455,7 +671,7 @@
             const total = BASE_DAILY_RATE + otPay + totalAllowance;
 
             document.getElementById('otPayPreview').innerText = `+${otPay} ฿`;
-            document.getElementById('dailyTotalPreview').innerText = `${total} ဘတ်`;
+            document.getElementById('dailyTotalPreview').innerText = `${total} THB`;
         };
 
         document.getElementById('recordForm').addEventListener('submit', function(e) {
@@ -478,7 +694,6 @@
                 otHours: otVal,
                 otPay: otPay,
                 allowance: totalAllowance,
-                allowanceDetail: { food, trans, room },
                 totalEarned: totalEarned
             };
 
@@ -516,7 +731,7 @@
             document.getElementById('statNightShift').innerText = nightShifts;
 
             if (window.records.length === 0) {
-                container.innerHTML = `<div class="glass-card rounded-2xl p-8 text-center text-slate-400"><i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-500"></i><p class="text-xs">မှတ်တမ်း မရှိသေးပါ။</p></div>`;
+                container.innerHTML = `<div class="glass-card rounded-2xl p-8 text-center text-slate-400"><i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-500"></i><p class="text-xs">No records found.</p></div>`;
                 return;
             }
 
@@ -525,7 +740,7 @@
                 const card = document.createElement('div');
                 card.className = "glass-card rounded-2xl p-3.5 border border-white/5 space-y-2 hover:border-white/20 transition-all";
                 
-                let allowanceBadge = rec.allowance > 0 ? `<div class="text-[10px] text-sky-300 font-semibold mt-1">ထောက်ပံ့ကြေး: +${rec.allowance} ฿</div>` : '';
+                let allowanceBadge = rec.allowance > 0 ? `<div class="text-[10px] text-sky-300 font-semibold mt-1">Allowance: +${rec.allowance} ฿</div>` : '';
 
                 card.innerHTML = `
                     <div class="flex justify-between items-center border-b border-white/10 pb-2">
@@ -535,7 +750,7 @@
                             </span>
                             <div>
                                 <div class="text-xs font-bold text-white">${rec.date}</div>
-                                <div class="text-[10px] text-slate-400">${isDay ? 'နေ့ဆိုင်း' : 'ညဆိုင်း'} ${rec.otHours > 0 ? `| OT: ${rec.otHours} နာရီ` : ''}</div>
+                                <div class="text-[10px] text-slate-400">${isDay ? 'Day Shift' : 'Night Shift'} ${rec.otHours > 0 ? `| OT: ${rec.otHours} hrs` : ''}</div>
                                 ${allowanceBadge}
                             </div>
                         </div>
@@ -557,13 +772,12 @@
         };
 
         window.clearAllRecords = function() {
-            if (confirm('မှတ်တမ်းအားလုံး ဖျက်မည်မှာ သေချာပါသလား?')) {
+            if (confirm('Clear all records?')) {
                 window.records = [];
                 window.saveUserRecords();
             }
         };
 
-        // Chatbox Functionality
         window.sendChatMessage = function(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
@@ -572,29 +786,23 @@
 
             const chatMessages = document.getElementById('chatMessages');
             
-            // Append User Message
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = "bg-red-500/20 border border-red-500/30 text-red-200 p-2 rounded-xl max-w-[85%] ml-auto text-right";
-            userMsgDiv.innerHTML = `<span class="font-bold text-[10px] block text-red-400">ကျွန်တော်</span>${msg}`;
+            userMsgDiv.innerHTML = `<span class="font-bold text-[10px] block text-red-400">Me</span>${msg}`;
             chatMessages.appendChild(userMsgDiv);
 
             input.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Simulated Admin Reply
             setTimeout(() => {
                 const adminReplyDiv = document.createElement('div');
                 adminReplyDiv.className = "bg-indigo-500/20 border border-indigo-500/30 text-indigo-200 p-2 rounded-xl max-w-[85%]";
-                adminReplyDiv.innerHTML = `<span class="font-bold text-[10px] block text-indigo-400">Admin Leader</span> မေးမြန်းချက်ကို လက်ခံရရှိပါသည်။ ခဏစောင့်ပေးပါ။`;
+                adminReplyDiv.innerHTML = `<span class="font-bold text-[10px] block text-indigo-400">Admin Leader</span> Message received. Please wait.`;
                 chatMessages.appendChild(adminReplyDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 playNotiSound();
             }, 1000);
         };
-
-        function loadChatMessages() {
-            // Placeholder for chat history initialization
-        }
     </script>
 </body>
 </html>
